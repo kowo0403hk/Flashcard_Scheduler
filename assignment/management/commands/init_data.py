@@ -1,7 +1,8 @@
 import json
 import os
+
 from django.core.management.base import BaseCommand
-from assignment.models import User
+from assignment.models import Card, User
 
 
 class Command(BaseCommand):
@@ -13,36 +14,35 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        User.objects.all().delete()
+        file_name = options.get("file")
+        json_file_path = os.path.join(os.path.dirname(__file__), file_name)
 
-        self.stdout.write(
-            self.style.SUCCESS("All existing item data has been deleted")
-        )
+        with open(json_file_path, encoding="utf-8") as json_file:
+            data = json.load(json_file)
 
-        try:
-            file_name = options.get("file", "MOCK_DATA.json")
-            json_file_path = os.path.join(os.path.dirname(__file__), file_name)
+        for row in data:
+            Card.objects.get_or_create(
+                front=row["front"], defaults={"back": row["back"]}
+            )
 
-            with open(json_file_path) as json_file:
-                _ = json.load(json_file)
-                # Handle the data as needed, e.g., creating User objects
-
+        if not User.objects.filter(username="testuser").exists():
             User.objects.create_superuser(
                 "testuser",
                 email="testuser@example.com",
                 password="testpassword",
             )
-            for i in range(1, 6):
-                User.objects.create_user(
-                    f"testuser{i}",
-                    email=f"testuser{i}@example.com",
-                    password="testpassword",
-                )
 
-            self.stdout.write(
-                self.style.SUCCESS(
-                    f"Mock data loaded successfully from {file_name}"
-                )
+        for i in range(1, 6):
+            user, created = User.objects.get_or_create(
+                username=f"testuser{i}",
+                defaults={"email": f"testuser{i}@example.com"},
             )
-        except Exception as e:
-            self.stdout.write(self.style.ERROR(f"Error loading data: {e}"))
+            if created:
+                user.set_password("testpassword")
+                user.save()
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"Mock data loaded successfully from {file_name} with {User.objects.count()} users and {Card.objects.count()} cards"
+            )
+        )

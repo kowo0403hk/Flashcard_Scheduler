@@ -1,1 +1,17 @@
-[]
+[
+    {
+        "front": "木", "back": "Tree"
+    },
+    {
+        "front": "海", "back": "Sea"
+    },
+    {
+        "front": "空", "back": "Sky"
+    },
+    {
+        "front": "風", "back": "Wind"
+    },
+    {
+        "front": "山", "back": "Mountain"
+    }
+]
