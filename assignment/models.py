@@ -36,6 +36,9 @@ class Card(Model):
 
 
 class CardState(Model):
+    id: int
+    user_id: int
+    card_id: int
     user = ForeignKey(User, on_delete=CASCADE)
     card = ForeignKey(Card, on_delete=CASCADE)
     interval_seconds = BigIntegerField()
@@ -57,6 +60,9 @@ class CardState(Model):
 
 
 class Review(Model):
+    id: int
+    user_id: int
+    card_id: int
     idempotency_key = CharField(max_length=64, unique=True)
     user = ForeignKey(User, on_delete=PROTECT)
     card = ForeignKey(Card, on_delete=PROTECT)

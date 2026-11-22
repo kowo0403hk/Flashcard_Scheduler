@@ -12,6 +12,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "django-stubs>=6.1.2",
+    "djangorestframework-stubs>=3.18.2",
     "poethepoet>=0.36.0",
     "pytest>=8.4.1",
     "pytest-django>=4.11.1",
@@ -28,6 +30,9 @@ test = "pytest"
 
 [tool.ruff]
 line-length = 79
+
+[tool.basedpyright]
+typeCheckingMode = "standard"
 
 [[tool.uv.index]]
 name = "pypi"
