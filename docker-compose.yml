@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: flashcards
+      POSTGRES_USER: flashcards
+      POSTGRES_PASSWORD: flashcards
+    ports: ["5432:5432"]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "flashcards"]
+      interval: 2s
+      retries: 15
+
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py init_data &&
+             python manage.py runserver 0.0.0.0:8000"
+    environment:
+      FLASHCARDS_DB_HOST: db
+    ports: ["8000:8000"]
+    depends_on:
+      db:
+        condition: service_healthy

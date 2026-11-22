@@ -78,11 +78,11 @@ WSGI_APPLICATION = "assignment.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DB_NAME", "flashcards"),
-        "USER": os.environ.get("DB_USER", "flashcards"),
-        "PASSWORD": os.environ.get("DB_PASSWORD", "flashcards"),
-        "HOST": os.environ.get("DB_HOST", "localhost"),
-        "PORT": os.environ.get("DB_PORT", "5432"),
+        "NAME": os.environ.get("FLASHCARDS_DB_NAME", "flashcards"),
+        "USER": os.environ.get("FLASHCARDS_DB_USER", "flashcards"),
+        "PASSWORD": os.environ.get("FLASHCARDS_DB_PASSWORD", "flashcards"),
+        "HOST": os.environ.get("FLASHCARDS_DB_HOST", "localhost"),
+        "PORT": os.environ.get("FLASHCARDS_DB_PORT", "5432"),
     }
 }
 
