@@ -7,13 +7,17 @@ from assignment.models import User
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
-            "--file", default="MOCK_DATA.json", help="JSON file name to load data from"
+            "--file",
+            default="MOCK_DATA.json",
+            help="JSON file name to load data from",
         )
 
     def handle(self, *args, **options):
         User.objects.all().delete()
 
-        self.stdout.write(self.style.SUCCESS("All existing item data has been deleted"))
+        self.stdout.write(
+            self.style.SUCCESS("All existing item data has been deleted")
+        )
 
         try:
             file_name = options.get("file", "MOCK_DATA.json")
@@ -24,7 +28,9 @@ class Command(BaseCommand):
                 # Handle the data as needed, e.g., creating User objects
 
             User.objects.create_superuser(
-                "testuser", email="testuser@example.com", password="testpassword"
+                "testuser",
+                email="testuser@example.com",
+                password="testpassword",
             )
             for i in range(1, 6):
                 User.objects.create_user(
@@ -34,7 +40,9 @@ class Command(BaseCommand):
                 )
 
             self.stdout.write(
-                self.style.SUCCESS(f"Mock data loaded successfully from {file_name}")
+                self.style.SUCCESS(
+                    f"Mock data loaded successfully from {file_name}"
+                )
             )
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Error loading data: {e}"))
